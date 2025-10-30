@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>XP Chatbot</title>
+<style>
+    body {
+        background-color: #C0C0C0;
+        font-family: Tahoma, Verdana, sans-serif;
+        display: flex;
+        justify-content: center;
+        margin-top: 50px;
+    }
+
+    .chat-container {
+        width: 400px;
+        border: 2px solid #0A64AD;
+        background-color: #FFFFFF;
+        box-shadow: 4px 4px 0 #808080;
+        padding: 10px;
+    }
+
+    .chat-window {
+        height: 400px;
+        overflow-y: auto;
+        border: 2px inset #C0C0C0;
+        padding: 5px;
+        margin-bottom: 10px;
+        background-color: #F0F0F0;
+    }
+
+    .chat-message {
+        margin: 5px 0;
+        padding: 5px;
+        border-radius: 3px;
+    }
+
+    .user-message {
+        background-color: #E0E0E0;
+        text-align: right;
+    }
+
+    .bot-message {
+        background-color: #FFFFFF;
+        text-align: left;
+    }
+
+    .input-container {
+        display: flex;
+    }
+
+    input[type="text"] {
+        flex: 1;
+        padding: 5px;
+        border: 2px inset #C0C0C0;
+        font-family: Tahoma, Verdana, sans-serif;
+    }
+
+    button {
+        padding: 5px 10px;
+        border: 2px outset #C0C0C0;
+        background-color: #E0E0E0;
+        font-family: Tahoma, Verdana, sans-serif;
+        cursor: pointer;
+        margin-left: 5px;
+    }
+
+    button:active {
+        border-style: inset;
+    }
+</style>
+</head>
+<body>
+<div class="chat-container">
+    <div class="chat-window" id="chatWindow"></div>
+    <div class="input-container">
+        <input type="text" id="userInput" placeholder="type your message..."
+               onkeydown="if(event.key==='Enter'){event.preventDefault(); sendMessage();}">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
+
+<script>
+const chatWindow = document.getElementById('chatWindow');
+
+// 페이지 로드 시 챗봇 자기소개
+window.onload = function() {
+    const intro = "Hello! I'm a chatbot with the personality and tone of Joseph Jeong. " +
+              "I speak in a friendly and witty way, reflecting my experiences and perspective, " +
+              "and I love dad jokes. My interests include F1, sports, coding, and traveling. " +
+              "Feel free to ask me anything! You can ask me in English or Spanish or Korean.";
+    chatWindow.innerHTML += `<div class="chat-message bot-message">${intro}</div>`;
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+};
+
+async function sendMessage() {
+    const input = document.getElementById('userInput');
+    const message = input.value.trim();
+    if (!message) return;
+    input.value = '';
+
+    // 유저 메시지 표시
+    chatWindow.innerHTML += `<div class="chat-message user-message">${message}</div>`;
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+
+    try {
+        const response = await fetch('/chat', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({text: message})
+        });
+        const data = await response.json();
+        chatWindow.innerHTML += `<div class="chat-message bot-message">${data.response}</div>`;
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+    } catch (err) {
+        chatWindow.innerHTML += `<div class="chat-message bot-message" style="color:red;">서버 오류: ${err}</div>`;
+    }
+}
+</script>
+</body>
+</html>

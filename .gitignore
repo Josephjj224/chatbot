@@ -1,0 +1,72 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+*.db
+*.log
+
+# Virtual environments
+.env
+.venv/
+env/
+venv/
+ENV/
+
+# Environment variables or API keys
+*.env
+*.env.*
+.envrc
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+
+# Byte-compiled / cache
+*.py[cod]
+*$py.class
+
+# Jupyter notebooks checkpoints
+.ipynb_checkpoints
+
+# Compiled C extensions
+*.so
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# PyInstaller
+*.manifest
+*.spec
+
+# mypy / type checker
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# FastAPI templates or static files (optional)
+# (Uncomment if you generate them dynamically)
+# /templates/*
+# /static/*
+
+# Docker / Cloud Run
+*.tar
+*.bak
+*.tmp
+*.lock
+__dockerfile_backup__

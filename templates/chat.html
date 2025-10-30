@@ -84,6 +84,7 @@ const chatWindow = document.getElementById('chatWindow');
 const userInput = document.getElementById('userInput');
 const sendBtn = document.getElementById('sendBtn');
 
+// 페이지 로드 시 챗봇 자기소개 한 번만
 function showIntro() {
     const intro = "Hello! I'm a chatbot with the personality and tone of Joseph Jeong. " +
               "I speak in a friendly and witty way, reflecting my experiences and perspective, " +
@@ -95,7 +96,7 @@ function showIntro() {
 
 window.onload = showIntro;
 
-let sending = false;
+let sending = false; 
 async function sendMessage() {
     if (sending) return; 
     const message = userInput.value.trim();
@@ -116,7 +117,7 @@ async function sendMessage() {
         const data = await response.json();
 
         let botMessage = data.response || "";
-        botMessage = botMessage.replace(/\n/g, '<br>'); 
+        botMessage = botMessage.replace(/\n/g, '<br>'); // 줄바꿈 처리
 
         chatWindow.innerHTML += `<div class="chat-message bot-message">${botMessage}</div>`;
         chatWindow.scrollTop = chatWindow.scrollHeight;
@@ -128,8 +129,9 @@ async function sendMessage() {
     }
 }
 
+
 userInput.addEventListener('keydown', function(event) {
-    if(event.key === 'Enter') {
+    if(event.key === 'Enter' && !event.isComposing) {  
         event.preventDefault();
         sendMessage();
     }

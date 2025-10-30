@@ -99,7 +99,6 @@ async function sendMessage() {
     if (!message) return;
     input.value = '';
 
-    // 유저 메시지 표시
     chatWindow.innerHTML += `<div class="chat-message user-message">${message}</div>`;
     chatWindow.scrollTop = chatWindow.scrollHeight;
 
